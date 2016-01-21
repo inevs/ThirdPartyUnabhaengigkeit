@@ -1,18 +1,27 @@
 package de.itagile.unabhaengigkeit;
 
-import de.thirdparty.kreditpruefer.KreditPruefer;
-
 public class KreditBeantrager {
+    private Pruefer pruefer;
     private Kreditantrag kreditantrag;
-    private KreditPruefer thirdPartyKreditPruefer;
 
     public KreditBeantrager(Kreditantrag kreditantrag) {
         this.kreditantrag = kreditantrag;
-        thirdPartyKreditPruefer = new KreditPruefer();
+        pruefer = new SimplePruefer();
     }
 
+    public Pruefer getPruefer() {
+		if (pruefer == null) {
+			pruefer = new SimplePruefer();
+		}
+        return pruefer;
+    }
+
+	public void setPruefer(Pruefer pruefer) {
+		this.pruefer = pruefer;
+	}
+
     public boolean pruefeKreditFaehigkeit() {
-        return thirdPartyKreditPruefer.pruefeKreditFaehigkeit(kreditantrag.getGesamtVermoegenInEuro(), kreditantrag.getMonatlEinkommenInEuro());
+        return getPruefer().pruefeKreditFaehigkeit(kreditantrag.getGesamtVermoegenInEuro(), kreditantrag.getMonatlEinkommenInEuro());
     }
 
     public Kredit nehmeKreditAuf() {
